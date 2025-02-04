@@ -6,6 +6,16 @@
     <title>Like Button</title>
 </head>
 <body>
-    <button id="likeButton">❤️ 0</button>
+    <button>🧡 <span>0</span></button>
+    <button>💚 <span>0</span></button>
+    <button>💜 <span>0</span></button>
+    <script>
+        document.querySelectorAll('button').forEach(button => {
+            button.onclick = () => {
+            let span = button.querySelector('span');
+            span.textContent++;
+            };
+        });
+    </script>
 </body>
 </html>
