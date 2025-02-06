@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #content {
+            max-width: 600px;
+        }
+        img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div id="content"></div>
+    <script>
+        const images = [
+            { src: 'images/figure8_correct.webp', question: 'Is this safe?', correctAnswer: true, explanation: 'This is safe because...' },
+            { src: 'images/back_clip.webp', question: 'Is this a correct way to clip?', correctAnswer: false, explanation: 'This is not secure because you have back clipped the quick draw.' },
+            // Add more images and questions as needed
+        ];
+
+        let currentIndex = 0;
+
+        function showWelcomePage() {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <h1>Welcome! Take a quiz to check your knowledge on climbing safety!</h1>
+                <button onclick="startQuiz()">Start</button>
+            `;
+        }
+
+        function startQuiz() {
+            currentIndex = 0;
+            loadImage();
+        }
+
+        function loadImage() {
+            const content = document.getElementById('content');
+            const image = images[currentIndex];
+            content.innerHTML = `
+                <img src="${image.src}" alt="Sample Image">
+                <p>${image.question}</p>
+                <button onclick="checkAnswer(true)">Yes</button>
+                <button onclick="checkAnswer(false)">No</button>
+                <p id="feedback"></p>
+                <button id="continue-button" style="display:none;" onclick="loadNextImage()">Continue</button>
+            `;
+        }
+
+        function checkAnswer(isYes) {
+            const feedback = document.getElementById('feedback');
+            const image = images[currentIndex];
+            if (isYes === image.correctAnswer) {
+                feedback.textContent = `Correct! ${image.explanation}`;
+                feedback.style.color = "green";
+            } else {
+                feedback.textContent = `Incorrect. ${image.explanation}`;
+                feedback.style.color = "red";
+            }
+            document.getElementById('continue-button').style.display = 'block';
+        }
+
+        function loadNextImage() {
+            currentIndex++;
+            if (currentIndex < images.length) {
+                loadImage();
+            } else {
+                showCongratulationsPage();
+            }
+        }
+
+        function showCongratulationsPage() {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <h1>Congratulations, now you've learned about climbing safety!</h1>
+                <button onclick="showWelcomePage()">Restart</button>
+            `;
+        }
+
+        window.onload = showWelcomePage;
+    </script>
+</body>
+</html>
