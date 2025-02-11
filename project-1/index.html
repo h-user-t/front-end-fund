@@ -1,110 +1,558 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        #content {
-            max-width: 600px;
-        }
-        img {
-            width: 100%;
-            max-width: 400px;
-            height: auto;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            margin: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-    </style>
+  <meta charset="utf-8">
+  <title>Cute Word Search Game</title>
+  <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(135deg, #fef9ff, #f5f0ff);
+      margin: 0;
+      padding: 20px;
+      color: #555;
+    }
+    h1 { font-size: 2.2em; margin-bottom: 10px; }
+    p { font-size: 1.1em; }
+    #start-menu {
+      max-width: 500px;
+      margin: 40px auto;
+      text-align: center;
+      padding: 30px 20px;
+      background: #fff;
+      border: 2px solid #ffccd5;
+      border-radius: 20px;
+      box-shadow: 0 6px 16px rgba(255, 204, 213, 0.4);
+      transition: transform 0.3s ease;
+    }
+    #start-menu:hover { transform: scale(1.02); }
+    #start-menu select,
+    #start-menu input {
+      width: 80%;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      border: 1px solid #ffc1c6;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+    #start-menu select:focus,
+    #start-menu input:focus { border-color: #ff8fa3; }
+    #error-message {
+      color: #d32f2f;
+      font-weight: 700;
+      margin-bottom: 15px;
+      display: none;
+    }
+    #start-menu button {
+      padding: 12px 25px;
+      font-size: 18px;
+      border: none;
+      border-radius: 20px;
+      background: #ff8fa3;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+    #start-menu button:disabled {
+      background: #ffb0b5;
+      cursor: not-allowed;
+    }
+    #start-menu button:hover:not(:disabled) {
+      background: #ff6b81;
+      transform: scale(1.05);
+    }
+    #game-container { display: none; margin-top: 20px; }
+    #game-inner {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    #wordsearch-container {
+      position: relative;
+      background: #fff;
+      padding: 15px;
+      border: 2px solid #c8e6c9;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(200, 230, 201, 0.4);
+    }
+    #wordsearch { display: grid; grid-gap: 4px; }
+    .cell {
+      width: 30px;
+      height: 30px;
+      background: #ffe0e9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      user-select: none;
+      font-size: 16px;
+      color: #555;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .cell:hover {
+      background: #ffd3de;
+      transform: scale(1.05);
+    }
+    .cell.found {
+      background: #ffeb3b;
+      color: #333;
+      animation: pulse 0.4s ease-out;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    /* The word list container will dynamically size based on its content */
+    #wordlist {
+      list-style: none;
+      padding: 15px;
+      margin: 0;
+      background: #fff;
+      border: 2px solid #cfd8dc;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(207, 216, 220, 0.4);
+      display: inline-block;
+      white-space: nowrap;
+    }
+    /* Ensure each word does not wrap */
+    #wordlist li {
+      margin: 10px 0;
+      font-size: 1.1em;
+      font-weight: 700;
+      transition: opacity 0.5s ease-out, transform 0.3s ease;
+      white-space: nowrap;
+    }
+    #wordlist li.found {
+      text-decoration: line-through;
+      color: #4caf50;
+      opacity: 0.6;
+    }
+    #overlay {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      pointer-events: none;
+      overflow: visible;
+    }
+    .fade-out { transition: opacity 0.5s ease-out; opacity: 0; }
+    #celebration-screen {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 182, 193, 0.95);
+      color: #fff;
+      text-align: center;
+      padding-top: 150px;
+      animation: fadeIn 0.8s ease-out;
+    }
+    #celebration-screen h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+      animation: scaleUp 1s ease-out;
+    }
+    #celebration-screen p { font-size: 1.5em; margin-bottom: 30px; }
+    #celebration-screen button {
+      padding: 12px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 20px;
+      background: #ff8fa3;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+    #celebration-screen button:hover {
+      background: #ff6b81;
+      transform: scale(1.05);
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes scaleUp { from { transform: scale(0.8); } to { transform: scale(1); } }
+  </style>
 </head>
 <body>
-    <div id="content"></div>
-    <script>
-        const images = [
-            { src: 'images/figure8_correct.webp', question: 'Is this safe?', correctAnswer: true, explanation: 'This is safe because...' },
-            { src: 'images/back_clip.webp', question: 'Is this a correct way to clip?', correctAnswer: false, explanation: 'This is not secure because you have back clipped the quick draw.' },
-            // Add more images and questions as needed
-        ];
+  <div id="start-menu">
+    <h1>Word Search Game</h1>
+    <p>Select grid size (difficulty):</p>
+    <select id="gridSizeSelect">
+      <option value="15">Easy (15×15)</option>
+      <option value="20">Medium (20×20)</option>
+      <option value="25" selected>Hard (25×25)</option>
+      <option value="30">Expert (30×30)</option>
+    </select>
+    <p>Enter custom words (comma separated) or leave blank for default words:</p>
+    <input type="text" id="customWords" placeholder="APPLE, BANANA, CHERRY, ..." />
+    <div id="error-message">One or more words exceed the grid size. Please shorten them.</div>
+    <button id="playButton">Play Word Search Game</button>
+  </div>
+  <div id="game-container">
+    <div id="game-inner">
+      <div id="wordsearch-container">
+        <div id="wordsearch"></div>
+        <svg id="overlay"></svg>
+      </div>
+      <ul id="wordlist"></ul>
+    </div>
+  </div>
+  <div id="celebration-screen">
+    <h1>Congratulations!</h1>
+    <p>You found all the words!</p>
+    <button id="backToStart">Back to Start</button>
+  </div>
+  <script>
+    var foundCount = 0;
+    var gameWords = [];
+    var gameState = {
+      cellElements: [],
+      gridSize: 0,
+      cellSize: 30,
+      gap: 4,
+      dragging: false,
+      startRow: null,
+      startCol: null,
+      startCell: null,
+      selectionLine: null
+    };
+    var overlay = document.getElementById("overlay");
+    var gridContainer = document.getElementById("wordsearch");
 
-        let currentIndex = 0;
+    /**
+     * Returns the center coordinates of a grid cell.
+     * @param {number} row - The cell's row index.
+     * @param {number} col - The cell's column index.
+     * @returns {Object} An object with x and y coordinates of the cell's center.
+     */
+    function getCellCenter(row, col) {
+      var x = col * (gameState.cellSize + gameState.gap) + gameState.cellSize / 2;
+      var y = row * (gameState.cellSize + gameState.gap) + gameState.cellSize / 2;
+      return { x: x, y: y };
+    }
 
-        function showWelcomePage() {
-            const content = document.getElementById('content');
-            content.innerHTML = `
-                <h1>Welcome! Take a quiz to check your knowledge on climbing safety!</h1>
-                <button onclick="startQuiz()">Start</button>
-            `;
+    /**
+     * Handler for the mousedown event on the grid.
+     * Sets dragging state and initializes the SVG selection line.
+     * @param {Event} e - The mousedown event.
+     */
+    function onGridMousedown(e) {
+      if (e.target.classList.contains("cell")) {
+        gameState.dragging = true;
+        gameState.startCell = e.target;
+        gameState.startRow = parseInt(e.target.dataset.row);
+        gameState.startCol = parseInt(e.target.dataset.col);
+        if (gameState.selectionLine) { gameState.selectionLine.remove(); }
+        gameState.selectionLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        gameState.selectionLine.setAttribute("stroke", "red");
+        gameState.selectionLine.setAttribute("stroke-width", "4");
+        gameState.selectionLine.setAttribute("stroke-linecap", "round");
+        gameState.selectionLine.setAttribute("opacity", "0.7");
+        overlay.appendChild(gameState.selectionLine);
+        var center = getCellCenter(gameState.startRow, gameState.startCol);
+        gameState.selectionLine.setAttribute("x1", center.x);
+        gameState.selectionLine.setAttribute("y1", center.y);
+        gameState.selectionLine.setAttribute("x2", center.x);
+        gameState.selectionLine.setAttribute("y2", center.y);
+      }
+    }
+
+    /**
+     * Computes the Euclidean distance between two points.
+     * @param {number} x1 - X-coordinate of the first point.
+     * @param {number} y1 - Y-coordinate of the first point.
+     * @param {number} x2 - X-coordinate of the second point.
+     * @param {number} y2 - Y-coordinate of the second point.
+     * @returns {number} The distance between the two points.
+     */
+    function distance(x1, y1, x2, y2) {
+      return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
+    }
+
+    /**
+     * Handler for the mousemove event on the grid.
+     * Updates the SVG selection line endpoint based on current mouse position.
+     * @param {Event} e - The mousemove event.
+     */
+    function onGridMousemove(e) {
+      if (!gameState.dragging) return;
+      var rect = gridContainer.getBoundingClientRect();
+      var offsetX = e.clientX - rect.left;
+      var offsetY = e.clientY - rect.top;
+      var candidateCol = Math.max(0, Math.min(gameState.gridSize - 1, Math.floor(offsetX / (gameState.cellSize + gameState.gap))));
+      var candidateRow = Math.max(0, Math.min(gameState.gridSize - 1, Math.floor(offsetY / (gameState.cellSize + gameState.gap))));
+      var candH = { row: gameState.startRow, col: candidateCol };
+      var candV = { row: candidateRow, col: gameState.startCol };
+      var dRow = candidateRow - gameState.startRow;
+      var dCol = candidateCol - gameState.startCol;
+      var steps = Math.min(Math.abs(dRow), Math.abs(dCol));
+      var candD = {
+        row: gameState.startRow + (dRow === 0 ? 0 : Math.sign(dRow) * steps),
+        col: gameState.startCol + (dCol === 0 ? 0 : Math.sign(dCol) * steps)
+      };
+      var centerH = getCellCenter(candH.row, candH.col);
+      var centerV = getCellCenter(candV.row, candV.col);
+      var centerD = getCellCenter(candD.row, candD.col);
+      var dH = distance(centerH.x, centerH.y, offsetX, offsetY);
+      var dV = distance(centerV.x, centerV.y, offsetX, offsetY);
+      var dD = distance(centerD.x, centerD.y, offsetX, offsetY);
+      var finalCenter = (dH <= dV && dH <= dD) ? centerH : (dV <= dH && dV <= dD ? centerV : centerD);
+      gameState.selectionLine.setAttribute("x2", finalCenter.x);
+      gameState.selectionLine.setAttribute("y2", finalCenter.y);
+    }
+
+    /**
+     * Checks if two arrays of cell positions match.
+     * @param {Array} arr1 - The first array of position objects.
+     * @param {Array} arr2 - The second array of position objects.
+     * @returns {boolean} True if both arrays have identical positions; otherwise, false.
+     */
+    function positionsMatch(arr1, arr2) {
+      if (arr1.length !== arr2.length) return false;
+      for (var i = 0; i < arr1.length; i++) {
+        if (arr1[i].r !== arr2[i].r || arr1[i].c !== arr2[i].c) return false;
+      }
+      return true;
+    }
+
+    /**
+     * Handler for the mouseup event on the document.
+     * Finalizes the selection, checks if the selected cells form a valid word,
+     * updates the grid and word list, and triggers the celebration screen if all words are found.
+     * @param {Event} e - The mouseup event.
+     */
+    function onDocumentMouseup(e) {
+      if (!gameState.dragging) return;
+      gameState.dragging = false;
+      var x2 = parseFloat(gameState.selectionLine.getAttribute("x2"));
+      var y2 = parseFloat(gameState.selectionLine.getAttribute("y2"));
+      var finalCol = Math.floor(x2 / (gameState.cellSize + gameState.gap));
+      var finalRow = Math.floor(y2 / (gameState.cellSize + gameState.gap));
+      if (finalRow === gameState.startRow && finalCol === gameState.startCol) {
+        gameState.selectionLine.classList.add("fade-out");
+        setTimeout(function() { if (gameState.selectionLine) { gameState.selectionLine.remove(); gameState.selectionLine = null; } }, 500);
+        return;
+      }
+      var dRow = finalRow - gameState.startRow;
+      var dCol = finalCol - gameState.startCol;
+      if (!(dRow === 0 || dCol === 0 || Math.abs(dRow) === Math.abs(dCol))) {
+        gameState.selectionLine.classList.add("fade-out");
+        setTimeout(function() { if (gameState.selectionLine) { gameState.selectionLine.remove(); gameState.selectionLine = null; } }, 500);
+        return;
+      }
+      var steps = Math.max(Math.abs(dRow), Math.abs(dCol));
+      var stepRow = dRow === 0 ? 0 : Math.sign(dRow);
+      var stepCol = dCol === 0 ? 0 : Math.sign(dCol);
+      var selectedPositions = [];
+      var selectedWord = "";
+      for (var i = 0; i <= steps; i++) {
+        var r = gameState.startRow + stepRow * i;
+        var c = gameState.startCol + stepCol * i;
+        if (r >= 0 && r < gameState.gridSize && c >= 0 && c < gameState.gridSize) {
+          selectedPositions.push({ r: r, c: c });
+          selectedWord += gameState.cellElements[r][c].textContent;
         }
-
-        function startQuiz() {
-            currentIndex = 0;
-            loadImage();
+      }
+      gameWords.forEach(function(obj) {
+        if (!obj.found) {
+          if (positionsMatch(selectedPositions, obj.positions) ||
+              positionsMatch(selectedPositions, obj.positions.slice().reverse())) {
+            obj.positions.forEach(function(pos) {
+              gameState.cellElements[pos.r][pos.c].classList.add("found");
+            });
+            obj.listItem.classList.add("found");
+            obj.found = true;
+            foundCount++;
+          }
         }
+      });
+      gameState.selectionLine.classList.add("fade-out");
+      setTimeout(function() { if (gameState.selectionLine) { gameState.selectionLine.remove(); gameState.selectionLine = null; } }, 500);
+      if (foundCount === gameWords.length) {
+        setTimeout(function() { document.getElementById("celebration-screen").style.display = "block"; }, 500);
+      }
+    }
 
-        function loadImage() {
-            const content = document.getElementById('content');
-            const image = images[currentIndex];
-            content.innerHTML = `
-                <img src="${image.src}" alt="Sample Image">
-                <p>${image.question}</p>
-                <button onclick="checkAnswer(true)">Yes</button>
-                <button onclick="checkAnswer(false)">No</button>
-                <p id="feedback"></p>
-                <button id="continue-button" style="display:none;" onclick="loadNextImage()">Continue</button>
-            `;
+    gridContainer.addEventListener("mousedown", onGridMousedown);
+    gridContainer.addEventListener("mousemove", onGridMousemove);
+    document.addEventListener("mouseup", onDocumentMouseup);
+
+    /**
+     * Validates the custom word input against the selected grid size.
+     * Displays an error message and disables the play button if any word exceeds the grid size.
+     */
+    function validateInput() {
+      var gridSize = parseInt(document.getElementById("gridSizeSelect").value);
+      var input = document.getElementById("customWords").value;
+      var errorMessageEl = document.getElementById("error-message");
+      var playButton = document.getElementById("playButton");
+      var words = input.split(",").map(function(word) { return word.trim(); }).filter(function(word) { return word.length > 0; });
+      var hasError = words.some(function(word) { return word.length > gridSize; });
+      if (hasError) {
+        errorMessageEl.style.display = "block";
+        playButton.disabled = true;
+      } else {
+        errorMessageEl.style.display = "none";
+        playButton.disabled = false;
+      }
+    }
+    document.getElementById("customWords").addEventListener("input", validateInput);
+    document.getElementById("gridSizeSelect").addEventListener("change", validateInput);
+
+    document.getElementById("backToStart").addEventListener("click", function() {
+      foundCount = 0;
+      gameWords = [];
+      document.getElementById("celebration-screen").style.display = "none";
+      document.getElementById("game-container").style.display = "none";
+      document.getElementById("start-menu").style.display = "block";
+      document.getElementById("customWords").value = "";
+      document.getElementById("error-message").style.display = "none";
+    });
+
+    /**
+     * Initializes and starts a new game.
+     * Builds an empty grid, places words (custom or default), fills empty cells with random letters,
+     * creates the HTML grid and word list, and updates the SVG overlay size.
+     */
+    function startGame() {
+      foundCount = 0;
+      gameWords = [];
+      document.getElementById("start-menu").style.display = "none";
+      document.getElementById("game-container").style.display = "block";
+      var gridSize = parseInt(document.getElementById("gridSizeSelect").value);
+      var cellSize = 30;
+      var gap = 4;
+      var maxAttempts = 100;
+      var directions = [
+        { dr: 0,  dc: 1 },
+        { dr: 0,  dc: -1 },
+        { dr: 1,  dc: 0 },
+        { dr: -1, dc: 0 },
+        { dr: 1,  dc: 1 },
+        { dr: -1, dc: -1 },
+        { dr: 1,  dc: -1 },
+        { dr: -1, dc: 1 }
+      ];
+      gameState.gridSize = gridSize;
+      gameState.cellSize = cellSize;
+      gameState.gap = gap;
+      gridContainer.style.gridTemplateColumns = "repeat(" + gridSize + ", " + cellSize + "px)";
+      var input = document.getElementById("customWords").value;
+      var defaultWords = ["APPLE", "BANANA", "CHERRY", "GRAPE", "LEMON", "MANGO", "ORANGE", "PEACH", "PEAR", "PLUM"];
+      var wordsArray;
+      if (input.trim() === "") {
+        wordsArray = defaultWords;
+      } else {
+        wordsArray = input.split(",").map(function(word) { return word.trim().toUpperCase(); }).filter(function(word) { return word.length > 0 && word.length <= gridSize; });
+        if (wordsArray.length === 0) { wordsArray = defaultWords; }
+      }
+      var grid = [];
+      for (var r = 0; r < gridSize; r++) {
+        grid[r] = [];
+        for (var c = 0; c < gridSize; c++) {
+          grid[r][c] = null;
         }
-
-        function checkAnswer(isYes) {
-            const feedback = document.getElementById('feedback');
-            const image = images[currentIndex];
-            if (isYes === image.correctAnswer) {
-                feedback.textContent = `Correct! ${image.explanation}`;
-                feedback.style.color = "green";
-            } else {
-                feedback.textContent = `Incorrect. ${image.explanation}`;
-                feedback.style.color = "red";
+      }
+      for (var i = 0; i < wordsArray.length; i++) {
+        gameWords.push({ word: wordsArray[i], positions: null, found: false });
+      }
+      /**
+       * Attempts to place a given word in the grid.
+       * Tries random directions and positions up to a maximum number of attempts.
+       * @param {string} word - The word to be placed.
+       * @returns {Array|null} An array of position objects if successful, or null if placement fails.
+       */
+      function placeWord(word) {
+        for (var attempt = 0; attempt < maxAttempts; attempt++) {
+          var dir = directions[Math.floor(Math.random() * directions.length)];
+          var dr = dir.dr, dc = dir.dc;
+          var startRow, startCol;
+          if (dr >= 0) {
+            startRow = Math.floor(Math.random() * (gridSize - word.length));
+          } else {
+            startRow = Math.floor(Math.random() * (gridSize - word.length)) + word.length - 1;
+          }
+          if (dc >= 0) {
+            startCol = Math.floor(Math.random() * (gridSize - word.length));
+          } else {
+            startCol = Math.floor(Math.random() * (gridSize - word.length)) + word.length - 1;
+          }
+          var fits = true;
+          var positions = [];
+          for (var i = 0; i < word.length; i++) {
+            var r = startRow + dr * i;
+            var c = startCol + dc * i;
+            if (r < 0 || r >= gridSize || c < 0 || c >= gridSize) { fits = false; break; }
+            if (grid[r][c] !== null && grid[r][c] !== word[i]) { fits = false; break; }
+            positions.push({ r: r, c: c });
+          }
+          if (fits) {
+            for (var i = 0; i < word.length; i++) {
+              var r = startRow + dr * i;
+              var c = startCol + dc * i;
+              grid[r][c] = word[i];
             }
-            document.getElementById('continue-button').style.display = 'block';
+            return positions;
+          }
         }
-
-        function loadNextImage() {
-            currentIndex++;
-            if (currentIndex < images.length) {
-                loadImage();
-            } else {
-                showCongratulationsPage();
-            }
+        return null;
+      }
+      for (var i = 0; i < gameWords.length; i++) {
+        var pos = placeWord(gameWords[i].word);
+        if (pos) { gameWords[i].positions = pos; }
+        else { console.error("Failed to place word:", gameWords[i].word); }
+      }
+      for (var r = 0; r < gridSize; r++) {
+        for (var c = 0; c < gridSize; c++) {
+          if (grid[r][c] === null) {
+            grid[r][c] = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+          }
         }
-
-        function showCongratulationsPage() {
-            const content = document.getElementById('content');
-            content.innerHTML = `
-                <h1>Congratulations, now you've learned about climbing safety!</h1>
-                <button onclick="showWelcomePage()">Restart</button>
-            `;
+      }
+      gridContainer.innerHTML = "";
+      var cellElements = [];
+      for (var r = 0; r < gridSize; r++) {
+        cellElements[r] = [];
+        for (var c = 0; c < gridSize; c++) {
+          var cell = document.createElement("div");
+          cell.className = "cell";
+          cell.dataset.row = r;
+          cell.dataset.col = c;
+          cell.textContent = grid[r][c];
+          gridContainer.appendChild(cell);
+          cellElements[r][c] = cell;
         }
-
-        window.onload = showWelcomePage;
-    </script>
+      }
+      gameState.cellElements = cellElements;
+      var wordListEl = document.getElementById("wordlist");
+      wordListEl.innerHTML = "";
+      for (var i = 0; i < gameWords.length; i++) {
+        var li = document.createElement("li");
+        li.textContent = gameWords[i].word;
+        wordListEl.appendChild(li);
+        gameWords[i].listItem = li;
+      }
+      /**
+       * Updates the SVG overlay size to match the grid dimensions.
+       */
+      function updateOverlaySize() {
+        var width = gridSize * cellSize + (gridSize - 1) * gap;
+        var height = gridSize * cellSize + (gridSize - 1) * gap;
+        overlay.setAttribute("width", width);
+        overlay.setAttribute("height", height);
+      }
+      updateOverlaySize();
+    }
+    document.getElementById("playButton").addEventListener("click", startGame);
+  </script>
 </body>
 </html>
