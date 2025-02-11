@@ -111,7 +111,6 @@
       50% { transform: scale(1.2); }
       100% { transform: scale(1); }
     }
-    /* The word list container will dynamically size based on its content */
     #wordlist {
       list-style: none;
       padding: 15px;
@@ -123,7 +122,6 @@
       display: inline-block;
       white-space: nowrap;
     }
-    /* Ensure each word does not wrap */
     #wordlist li {
       margin: 10px 0;
       font-size: 1.1em;
@@ -541,9 +539,6 @@
         wordListEl.appendChild(li);
         gameWords[i].listItem = li;
       }
-      /**
-       * Updates the SVG overlay size to match the grid dimensions.
-       */
       function updateOverlaySize() {
         var width = gridSize * cellSize + (gridSize - 1) * gap;
         var height = gridSize * cellSize + (gridSize - 1) * gap;
