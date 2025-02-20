@@ -26,7 +26,6 @@
       box-shadow: 0 6px 16px rgba(255, 204, 213, 0.4);
       transition: transform 0.3s;
     }
-    #start-menu:hover { transform: scale(1.02); }
     #start-menu select,
     #start-menu input {
       width: 80%;
@@ -61,6 +60,24 @@
       cursor: not-allowed;
     }
     #start-menu button:hover:not(:disabled) {
+      background: #ff6b81;
+      transform: scale(1.05);
+    }
+    #backToStartGame {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      padding: 10px 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 20px;
+      background: #ff8fa3;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      z-index: 1100;
+    }
+    #backToStartGame:hover {
       background: #ff6b81;
       transform: scale(1.05);
     }
@@ -196,6 +213,7 @@
     <button id="playButton">Play Word Search Game</button>
   </div>
   <div id="game-container">
+    <button id="backToStartGame">Back to Start</button>
     <div id="game-inner">
       <div id="wordsearch-container">
         <div id="wordsearch"></div>
@@ -376,6 +394,7 @@
       gameState.selectionLine.classList.add("fade-out");
       setTimeout(function() { if (gameState.selectionLine) { gameState.selectionLine.remove(); gameState.selectionLine = null; } }, 500);
       if (foundCount === gameWords.length) {
+        document.getElementById("backToStartGame").style.display = "none";
         setTimeout(function() { document.getElementById("celebration-screen").style.display = "block"; }, 500);
       }
     }
@@ -410,6 +429,17 @@
       foundCount = 0;
       gameWords = [];
       document.getElementById("celebration-screen").style.display = "none";
+      document.getElementById("game-container").style.display = "none";
+      document.getElementById("backToStartGame").style.display = "block";
+      document.getElementById("start-menu").style.display = "block";
+      document.getElementById("customWords").value = "";
+      document.getElementById("error-message").style.display = "none";
+    });
+    document.getElementById("backToStartGame").addEventListener("click", function() {
+      foundCount = 0;
+      gameWords = [];
+      document.getElementById("celebration-screen").style.display = "none";
+      document.getElementById("backToStartGame").style.display = "block";
       document.getElementById("game-container").style.display = "none";
       document.getElementById("start-menu").style.display = "block";
       document.getElementById("customWords").value = "";
