@@ -230,6 +230,19 @@
   <script>
     var foundCount = 0;
     var gameWords = [];
+    /* 
+    gameState object holds the state of the game.
+       Properties:
+       - cellElements: Array to store the elements of the game cells.
+       - gridSize: Number representing the size of the game grid.
+       - cellSize: Number representing the size of each cell in pixels.
+       - gap: Number representing the gap between cells in pixels.
+       - dragging: Boolean indicating whether a drag action is in progress.
+       - startRow: Number representing the starting row of a drag action.
+       - startCol: Number representing the starting column of a drag action.
+       - startCell: Reference to the starting cell element of a drag action.
+       - selectionLine: Reference to the visual line element used during selection.
+    */
     var gameState = {
       cellElements: [],
       gridSize: 0,
@@ -306,8 +319,8 @@
       var offsetY = e.clientY - rect.top;
       var candidateCol = Math.max(0, Math.min(gameState.gridSize - 1, Math.floor(offsetX / (gameState.cellSize + gameState.gap))));
       var candidateRow = Math.max(0, Math.min(gameState.gridSize - 1, Math.floor(offsetY / (gameState.cellSize + gameState.gap))));
-      var candH = { row: gameState.startRow, col: candidateCol };
-      var candV = { row: candidateRow, col: gameState.startCol };
+      var candH = { row: gameState.startRow, col: candidateCol }; // horizontal
+      var candV = { row: candidateRow, col: gameState.startCol }; // vertical
       var dRow = candidateRow - gameState.startRow;
       var dCol = candidateCol - gameState.startCol;
       var steps = Math.min(Math.abs(dRow), Math.abs(dCol));
