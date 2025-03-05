@@ -1,118 +1,379 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Courier New', Courier, monospace;
-    color: #0f0;
-}
+/* Import IBM Plex Mono from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap');
 
+/* Base styles for black-and-white typewriter aesthetic */
 body {
     background: #000;
+    color: #000;
+    font-family: 'IBM Plex Mono', monospace;
+    margin: 0;
+    padding: 0;
+    line-height: 1.8;
+    overflow-x: hidden;
+}
+
+/* Ensure content is visible */
+.hero, .container, .content-section, footer, .typed-text {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* App bar (vertical navigation on the right) */
+.app-bar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 200px;
     height: 100vh;
+    background: #000;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    border-left: 1px solid #fff;
+    z-index: 1000;
 }
 
-.container, .terminal-container {
-    width: 90%;
-    max-width: 1000px;
-    padding: 20px;
-    border: 2px solid #0f0;
+.app-bar .nav-link {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin: 20px 0;
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s;
 }
 
-header {
-    text-align: center;
+.app-bar .nav-link:hover {
+    color: #ccc;
+}
+
+/* Typewriter underline effect on hover */
+.app-bar .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #fff;
+    transition: width 0.5s ease;
+}
+
+.app-bar .nav-link:hover::after {
+    width: 100%;
+    animation: typewriter-underline 0.5s steps(10) forwards;
+}
+
+/* Active page indicator */
+.app-bar .nav-link.active::after {
+    width: 100%;
+    background: #00ff00; /* Green underline for active page */
+}
+
+/* Flash effect on click */
+.app-bar .nav-link:active {
+    color: #00ff00;
+    animation: flash-green 0.3s;
+}
+
+/* Main content container (left side) */
+.container {
+    margin-right: 200px; /* Space for the app bar */
+    padding: 40px;
+    width: calc(100% - 200px);
+}
+
+/* Content sections (paper-like background) */
+.content-section {
+    background: #fff;
+    background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+    color: #000;
+    padding: 30px;
+    margin-bottom: 30px;
+    border: 1px solid #000;
+    box-shadow: 5px 5px 0 #000;
+    position: relative;
+    max-width: 800px;
+}
+
+/* Section titles with blinking cursor */
+.section-title {
+    color: #000;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 1px;
     margin-bottom: 20px;
-}
-
-h1 {
-    font-size: 2em;
-    letter-spacing: 2px;
-    border-bottom: 2px solid #0f0;
+    position: relative;
     display: inline-block;
 }
 
-main {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: space-between;
-}
-
-.option {
-    flex: 1 1 300px;
-    cursor: pointer;
-    padding: 10px;
-    border: 1px solid #0f0;
-}
-
-.option:hover {
-    background: #0f0;
+.section-title::after {
+    content: '_';
     color: #000;
+    animation: blink 1s step-end infinite;
+    margin-left: 5px;
 }
 
-h2 {
-    font-size: 1.2em;
-    margin-bottom: 10px;
+.content-section h3 {
+    color: #000;
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 15px;
 }
 
-p, a {
-    font-size: 1em;
-    line-height: 1.5;
+.content-section p, .content-section ul {
+    font-size: 16px;
+    margin: 10px 0;
 }
 
-a {
-    color: #0f0;
+.content-section ul {
+    padding-left: 20px;
+}
+
+.content-section a {
+    color: #000;
     text-decoration: underline;
+    transition: color 0.3s;
 }
 
-a:hover {
-    background: #0f0;
+.content-section a:hover {
+    color: #00ff00;
+}
+
+/* Footer */
+footer {
+    background-color: #000;
+    padding: 20px 0;
+    text-align: center;
+    border-top: 1px solid #fff;
+    margin-top: 40px;
+    margin-right: 200px; /* Space for app bar */
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+    color: #fff;
+}
+
+footer a {
+    color: #fff;
+    margin: 0 15px;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+footer a:hover {
+    color: #ccc;
+}
+
+/* Typewriter animation placeholder */
+.typed-text {
     color: #000;
+    font-size: 48px;
+    font-weight: 700;
 }
 
-/* Terminal Specific */
+/* Terminal chat box (black-and-white aesthetic) */
+.terminal-chatbox {
+    position: fixed;
+    bottom: 80px;
+    right: 220px; /* Adjusted for app bar */
+    width: 350px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    display: none;
+    flex-direction: column;
+    z-index: 1000;
+    transition: box-shadow 0.3s;
+}
+
+.terminal-chatbox:hover {
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+}
+
+.resize-handle {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    border-radius: 50%;
+    cursor: nwse-resize;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 12px;
+}
+
 .terminal-header {
+    background: rgba(0, 0, 0, 0.95);
+    color: #fff;
+    padding: 10px;
     display: flex;
     justify-content: space-between;
-    padding: 5px;
-    background: #0f0;
-    color: #000;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 1px solid #fff;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
-.terminal-header button {
-    background: #000;
-    color: #0f0;
-    border: 1px solid #0f0;
-    padding: 2px 5px;
+.terminal-header .close-btn,
+.terminal-header .popout-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
     cursor: pointer;
+    margin-left: 10px;
+    transition: color 0.3s;
 }
 
-.terminal-output {
-    height: 70vh;
-    overflow-y: auto;
+.terminal-header .close-btn:hover,
+.terminal-header .popout-btn:hover {
+    color: #ccc;
+}
+
+#terminal-output {
+    flex: 1;
+    background: transparent;
+    color: #fff;
     padding: 10px;
-    background: #000;
-    border: 1px solid #0f0;
-    margin-bottom: 10px;
+    overflow-y: auto;
+    font-size: 14px;
+    white-space: pre-wrap;
+}
+
+#terminal-output::-webkit-scrollbar {
+    width: 8px;
+}
+
+#terminal-output::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#terminal-output::-webkit-scrollbar-thumb {
+    background: #fff;
+    border-radius: 4px;
+}
+
+#terminal-output::-webkit-scrollbar-thumb:hover {
+    background: #ccc;
 }
 
 .terminal-input {
     display: flex;
     align-items: center;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.95);
+    border-top: 1px solid #fff;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 
 .terminal-input span {
+    color: #fff;
     margin-right: 5px;
+    animation: blink 1s step-end infinite;
 }
 
 #command-input {
     flex: 1;
-    background: #000;
+    background: none;
     border: none;
+    color: #fff;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
     outline: none;
-    color: #0f0;
-    font-family: inherit;
-    font-size: 1em;
+}
+
+#command-input::placeholder {
+    color: #ccc;
+}
+
+.toggle-terminal-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 220px; /* Adjusted for app bar */
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000;
+    padding: 10px 15px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    z-index: 1000;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 5px;
+}
+
+.toggle-terminal-btn:hover {
+    background-color: #ccc;
+    color: #000;
+}
+
+/* Animations */
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes typewriter-underline {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes flash-green {
+    0% {
+        color: #fff;
+    }
+    50% {
+        color: #00ff00;
+    }
+    100% {
+        color: #fff;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .app-bar {
+        width: 100px;
+        right: 0;
+    }
+
+    .container {
+        margin-right: 100px;
+        width: calc(100% - 100px);
+    }
+
+    .app-bar .nav-link {
+        font-size: 14px;
+        margin: 15px 0;
+    }
+
+    .terminal-chatbox, .toggle-terminal-btn {
+        right: 120px;
+    }
+
+    footer {
+        margin-right: 100px;
+    }
 }

@@ -3,30 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hunter Todd - Portfolio Hub</title>
+    <title>Hunter Todd - Software Engineer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+    <!-- App bar (vertical navigation on the right) -->
+    <nav class="app-bar">
+        <a class="nav-link active" href="index.html">Home</a>
+        <a class="nav-link" href="projects.html">Projects</a>
+        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link" href="contact.html">Contact</a>
+        <a class="nav-link" href="assets/resume.pdf" target="_blank">Resume</a>
+    </nav>
+
+    <!-- Main content (left side) -->
     <div class="container">
-        <header>
-            <h1>Hunter_Todd_Portfolio</h1>
-            <p>> Welcome_to_my_digital_hub</p>
-        </header>
-        <main>
-            <div class="option">
-                <h2>>_Terminal</h2>
-                <p>Interactive_command_line_interface</p>
-            </div>
-            <div class="option">
-                <h2>>_Visualizer</h2>
-                <p>Coming_soon:_Data_visualization_tool</p>
-            </div>
-            <div class="option">
-                <h2>>_Game</h2>
-                <p>Coming_soon:_Terminal-based_game</p>
-            </div>
-        </main>
+        <div class="content-section">
+            <h2 class="section-title">Hunter Todd</h2>
+            <p>Software Engineer | University of Miami (GPA: 3.88) | IEEE-HKN & Tau Beta Pi Member</p>
+        </div>
+        <div class="content-section">
+            <h3>Welcome</h3>
+            <p>Hello! I’m Hunter Todd, a Senior at the University of Miami pursuing a B.S. in Software Engineering. With a strong foundation in programming languages like C/C++, Java, and JavaScript, I specialize in building robust, user-centric web applications using modern frameworks such as React and Node.js.</p>
+            <p>My experience includes internships at Parsons and Escape Theory, where I developed microservices, optimized APIs, and improved user experiences. I’m also a Resident Assistant, fostering inclusive communities at UM. Explore my portfolio to learn more about my projects, skills, and experience, or interact with my site using the terminal chat box below!</p>
+        </div>
     </div>
+
+    <!-- Terminal chat box -->
+    <div class="terminal-chatbox" id="terminal-chatbox" data-x="0" data-y="0">
+        <div class="resize-handle"><i class="fas fa-arrows-alt"></i></div>
+        <div class="terminal-header">
+            <span>Hunter's Terminal</span>
+            <div>
+                <button class="popout-btn" onclick="popoutTerminal()"><i class="fas fa-external-link-alt"></i></button>
+                <button class="close-btn" onclick="toggleTerminal()"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+        <div id="terminal-output"></div>
+        <div class="terminal-input">
+            <span>/home >_</span>
+            <input type="text" id="command-input" placeholder="Type a command...">
+        </div>
+    </div>
+    <button class="toggle-terminal-btn" onclick="toggleTerminal()"><i class="fas fa-terminal"></i> Open Terminal</button>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Hunter Todd. All rights reserved.</p>
+        <p>
+            <a href="https://twitter.com/huntertodd" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://linkedin.com/in/hunter-todd-717793212" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/h-user-t" target="_blank"><i class="fab fa-github"></i></a>
+        </p>
+    </footer>
+
+    <!-- Load JavaScript libraries from CDNs -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="js/script.js"></script>
+    <script src="js/terminal.js"></script>
 </body>
 </html>
