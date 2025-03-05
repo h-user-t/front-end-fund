@@ -2,86 +2,94 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Cute Word Search Game</title>
+  <title>>_Word_Search_Game</title>
   <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,700&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; }
+    * { 
+      box-sizing: border-box; 
+      font-family: 'Courier New', Courier, monospace;
+      color: #0f0;
+    }
     body {
-      font-family: 'Quicksand', sans-serif;
-      background: linear-gradient(135deg, #fef9ff, #f5f0ff);
+      background: #000;
       margin: 0;
       padding: 20px;
-      color: #555;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
-    h1 { font-size: 2.2em; margin-bottom: 10px; }
-    p { font-size: 1.1em; }
+    h1 { 
+      font-size: 2em; 
+      margin-bottom: 10px; 
+      border-bottom: 2px solid #0f0;
+      display: inline-block;
+    }
+    p { font-size: 1em; }
     #start-menu {
       max-width: 500px;
-      margin: 40px auto;
       text-align: center;
-      padding: 30px 20px;
-      background: #fff;
-      border: 2px solid #ffccd5;
-      border-radius: 20px;
-      box-shadow: 0 6px 16px rgba(255, 204, 213, 0.4);
-      transition: transform 0.3s;
+      padding: 20px;
+      background: #000;
+      border: 2px solid #0f0;
     }
     #start-menu select,
     #start-menu input {
       width: 80%;
       padding: 10px;
-      font-size: 16px;
+      font-size: 1em;
       margin-bottom: 15px;
-      border: 1px solid #ffc1c6;
-      border-radius: 8px;
+      border: 1px solid #0f0;
+      background: #000;
+      color: #0f0;
       outline: none;
-      transition: border-color 0.3s;
     }
     #start-menu select:focus,
-    #start-menu input:focus { border-color: #ff8fa3; }
+    #start-menu input:focus { border-color: #0f0; }
     #error-message {
-      color: #d32f2f;
+      color: #0f0;
       font-weight: 700;
       margin-bottom: 15px;
       display: none;
     }
     #start-menu button {
       padding: 12px 25px;
-      font-size: 18px;
-      border: none;
-      border-radius: 20px;
-      background: #ff8fa3;
-      color: white;
+      font-size: 1em;
+      border: 1px solid #0f0;
+      background: #000;
+      color: #0f0;
       cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
     }
     #start-menu button:disabled {
-      background: #ffb0b5;
+      opacity: 0.5;
       cursor: not-allowed;
     }
     #start-menu button:hover:not(:disabled) {
-      background: #ff6b81;
-      transform: scale(1.05);
+      background: #0f0;
+      color: #000;
     }
     #backToStartGame {
       position: fixed;
       top: 20px;
       left: 20px;
       padding: 10px 15px;
-      font-size: 16px;
-      border: none;
-      border-radius: 20px;
-      background: #ff8fa3;
-      color: white;
+      font-size: 1em;
+      border: 1px solid #0f0;
+      background: #000;
+      color: #0f0;
       cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
       z-index: 1100;
     }
     #backToStartGame:hover {
-      background: #ff6b81;
-      transform: scale(1.05);
+      background: #0f0;
+      color: #000;
     }
-    #game-container { display: none; margin-top: 20px; }
+    #game-container { 
+      display: none; 
+      margin-top: 20px; 
+      width: 90%;
+      max-width: 1000px;
+    }
     #game-inner {
       display: flex;
       justify-content: center;
@@ -91,36 +99,35 @@
     }
     #wordsearch-container {
       position: relative;
-      background: #fff;
+      background: #1a1a1a; /* Softer dark gray background */
       padding: 15px;
-      border: 2px solid #c8e6c9;
-      border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(200, 230, 201, 0.4);
+      border: 1px solid #00cc00; /* Softer green border */
     }
-    #wordsearch { display: grid; grid-gap: 4px; }
+    #wordsearch { 
+      display: grid; 
+      grid-gap: 4px; 
+    }
     .cell {
       width: 30px;
       height: 30px;
-      background: #ffe0e9;
+      background: #1a1a1a; /* Matching dark gray */
+      border: 1px solid #00cc00; /* Softer green */
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 8px;
       cursor: pointer;
       font-weight: 700;
       user-select: none;
       font-size: 16px;
-      color: #555;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-      transition: background 0.3s, transform 0.3s;
+      color: #00cc00; /* Softer green text */
     }
     .cell:hover {
-      background: #ffd3de;
-      transform: scale(1.05);
+      background: #334433; /* Muted green for hover */
+      color: #fff; /* White text on hover for contrast */
     }
     .cell.found {
-      background: #ffeb3b;
-      color: #333;
+      background: #00cc00; /* Softer green for found cells */
+      color: #000; /* Black text for readability */
       animation: pulse 0.4s ease-out;
     }
     @keyframes pulse {
@@ -132,23 +139,19 @@
       list-style: none;
       padding: 15px;
       margin: 0;
-      background: #fff;
-      border: 2px solid #cfd8dc;
-      border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(207, 216, 220, 0.4);
+      background: #1a1a1a; /* Matching dark gray */
+      border: 1px solid #00cc00; /* Softer green border */
       display: inline-block;
       white-space: nowrap;
     }
     #wordlist li {
       margin: 10px 0;
-      font-size: 1.1em;
+      font-size: 1em;
       font-weight: 700;
-      transition: opacity 0.5s ease-out, transform 0.3s ;
-      white-space: nowrap;
+      color: #00cc00; /* Softer green text */
     }
     #wordlist li.found {
       text-decoration: line-through;
-      color: #4caf50;
       opacity: 0.6;
     }
     #overlay {
@@ -158,7 +161,10 @@
       pointer-events: none;
       overflow: visible;
     }
-    .fade-out { transition: opacity 0.5s ease-out; opacity: 0; }
+    .fade-out { 
+      transition: opacity 0.5s ease-out; 
+      opacity: 0; 
+    }
     #celebration-screen {
       display: none;
       position: fixed;
@@ -167,53 +173,50 @@
       z-index: 1000;
       width: 100%;
       height: 100%;
-      background: rgba(255, 182, 193, 0.95);
-      color: #fff;
+      background: rgba(0, 20, 0, 0.95); /* Slightly lighter green tint */
+      color: #00cc00; /* Softer green text */
       text-align: center;
       padding-top: 150px;
-      animation: fadeIn 0.8s ease-out;
     }
     #celebration-screen h1 {
-      font-size: 3em;
+      font-size: 2em;
       margin-bottom: 20px;
-      animation: scaleUp 1s ease-out;
     }
-    #celebration-screen p { font-size: 1.5em; margin-bottom: 30px; }
+    #celebration-screen p { 
+      font-size: 1.5em; 
+      margin-bottom: 30px; 
+    }
     #celebration-screen button {
       padding: 12px 30px;
-      font-size: 18px;
-      border: none;
-      border-radius: 20px;
-      background: #ff8fa3;
-      color: white;
+      font-size: 1em;
+      border: 1px solid #00cc00; /* Softer green border */
+      background: #1a1a1a; /* Matching dark gray */
+      color: #00cc00; /* Softer green text */
       cursor: pointer;
-      transition: background 0.3s , transform 0.2s ;
     }
     #celebration-screen button:hover {
-      background: #ff6b81;
-      transform: scale(1.05);
+      background: #00cc00; /* Softer green on hover */
+      color: #000; /* Black text for contrast */
     }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes scaleUp { from { transform: scale(0.8); } to { transform: scale(1); } }
   </style>
 </head>
 <body>
   <div id="start-menu">
-    <h1>Word Search Game</h1>
-    <p>Select grid size (difficulty):</p>
+    <h1>>_Word_Search_Game</h1>
+    <p>>_Select_grid_size_(difficulty):</p>
     <select id="gridSizeSelect">
-      <option value="15">Easy (15×15)</option>
-      <option value="20">Medium (20×20)</option>
-      <option value="25" selected>Hard (25×25)</option>
-      <option value="30">Expert (30×30)</option>
+      <option value="15">>_Easy_(15×15)</option>
+      <option value="20">>_Medium_(20×20)</option>
+      <option value="25" selected>>_Hard_(25×25)</option>
+      <option value="30">>_Expert_(30×30)</option>
     </select>
-    <p>Enter custom words (comma separated) or leave blank for default words:</p>
-    <input type="text" id="customWords" placeholder="APPLE, BANANA, CHERRY, ..." />
-    <div id="error-message">One or more words exceed the grid size. Please shorten them.</div>
-    <button id="playButton">Play Word Search Game</button>
+    <p>>_Enter_custom_words_(comma_separated)_or_leave_blank_for_default_words:</p>
+    <input type="text" id="customWords" placeholder="APPLE,_BANANA,_CHERRY,_..." />
+    <div id="error-message">>_One_or_more_words_exceed_the_grid_size._Please_shorten_them.</div>
+    <button id="playButton">>_Play_Word_Search_Game</button>
   </div>
   <div id="game-container">
-    <button id="backToStartGame">Back to Start</button>
+    <button id="backToStartGame">>_Back_to_Start</button>
     <div id="game-inner">
       <div id="wordsearch-container">
         <div id="wordsearch"></div>
@@ -223,9 +226,9 @@
     </div>
   </div>
   <div id="celebration-screen">
-    <h1>Congratulations!</h1>
-    <p>You found all the words!</p>
-    <button id="backToStart">Back to Start</button>
+    <h1>>_Congratulations!</h1>
+    <p>>_You_found_all_the_words!</p>
+    <button id="backToStart">>_Back_to_Start</button>
   </div>
   <script>
     var foundCount = 0;
@@ -244,23 +247,12 @@
     var overlay = document.getElementById("overlay");
     var gridContainer = document.getElementById("wordsearch");
 
-    /**
-     * Returns the center coordinates of a grid cell.
-     * @param {number} row - The cell's row index.
-     * @param {number} col - The cell's column index.
-     * @returns {Object} An object with x and y coordinates of the cell's center.
-     */
     function getCellCenter(row, col) {
       var x = col * (gameState.cellSize + gameState.gap) + gameState.cellSize / 2;
       var y = row * (gameState.cellSize + gameState.gap) + gameState.cellSize / 2;
       return { x: x, y: y };
     }
 
-    /**
-     * Handler for the mousedown event on the grid.
-     * Sets dragging state and initializes the SVG selection line.
-     * @param {Event} e - The mousedown event.
-     */
     function onGridMousedown(e) {
       if (e.target.classList.contains("cell")) {
         gameState.dragging = true;
@@ -269,7 +261,7 @@
         gameState.startCol = parseInt(e.target.dataset.col);
         if (gameState.selectionLine) { gameState.selectionLine.remove(); }
         gameState.selectionLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
-        gameState.selectionLine.setAttribute("stroke", "red");
+        gameState.selectionLine.setAttribute("stroke", "#00cc00"); /* Softer green */
         gameState.selectionLine.setAttribute("stroke-width", "4");
         gameState.selectionLine.setAttribute("stroke-linecap", "round");
         gameState.selectionLine.setAttribute("opacity", "0.7");
@@ -282,23 +274,10 @@
       }
     }
 
-    /**
-     * Computes the Euclidean distance between two points.
-     * @param {number} x1 - X-coordinate of the first point.
-     * @param {number} y1 - Y-coordinate of the first point.
-     * @param {number} x2 - X-coordinate of the second point.
-     * @param {number} y2 - Y-coordinate of the second point.
-     * @returns {number} The distance between the two points.
-     */
     function distance(x1, y1, x2, y2) {
       return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
     }
 
-    /**
-     * Handler for the mousemove event on the grid.
-     * Updates the SVG selection line endpoint based on current mouse position.
-     * @param {Event} e - The mousemove event.
-     */
     function onGridMousemove(e) {
       if (!gameState.dragging) return;
       var rect = gridContainer.getBoundingClientRect();
@@ -326,12 +305,6 @@
       gameState.selectionLine.setAttribute("y2", finalCenter.y);
     }
 
-    /**
-     * Checks if two arrays of cell positions match.
-     * @param {Array} arr1 - The first array of position objects.
-     * @param {Array} arr2 - The second array of position objects.
-     * @returns {boolean} True if both arrays have identical positions; otherwise, false.
-     */
     function positionsMatch(arr1, arr2) {
       if (arr1.length !== arr2.length) return false;
       for (var i = 0; i < arr1.length; i++) {
@@ -340,12 +313,6 @@
       return true;
     }
 
-    /**
-     * Handler for the mouseup event on the document.
-     * Finalizes the selection, checks if the selected cells form a valid word,
-     * updates the grid and word list, and triggers the celebration screen if all words are found.
-     * @param {Event} e - The mouseup event.
-     */
     function onDocumentMouseup(e) {
       if (!gameState.dragging) return;
       gameState.dragging = false;
@@ -403,10 +370,6 @@
     gridContainer.addEventListener("mousemove", onGridMousemove);
     document.addEventListener("mouseup", onDocumentMouseup);
 
-    /**
-     * Validates the custom word input against the selected grid size.
-     * Displays an error message and disables the play button if any word exceeds the grid size.
-     */
     function validateInput() {
       var gridSize = parseInt(document.getElementById("gridSizeSelect").value);
       var input = document.getElementById("customWords").value;
@@ -446,11 +409,6 @@
       document.getElementById("error-message").style.display = "none";
     });
 
-    /**
-     * Initializes and starts a new game.
-     * Builds an empty grid, places words (custom or default), fills empty cells with random letters,
-     * creates the HTML grid and word list, and updates the SVG overlay size.
-     */
     function startGame() {
       foundCount = 0;
       gameWords = [];
@@ -493,12 +451,6 @@
       for (var i = 0; i < wordsArray.length; i++) {
         gameWords.push({ word: wordsArray[i], positions: null, found: false });
       }
-      /**
-       * Attempts to place a given word in the grid.
-       * Tries random directions and positions up to a maximum number of attempts.
-       * @param {string} word - The word to be placed.
-       * @returns {Array|null} An array of position objects if successful, or null if placement fails.
-       */
       function placeWord(word) {
         for (var attempt = 0; attempt < maxAttempts; attempt++) {
           var dir = directions[Math.floor(Math.random() * directions.length)];
