@@ -1,0 +1,11 @@
+:root {
+    --bg-dark: #0d1117;
+    --text-light: #c9d1d9;
+    --neon-green: #00ff99;
+    --neon-blue: #00ccff;
+    --shadow: 0 0 10px var(--neon-green), 0 0 20px rgba(0, 255, 153, 0.5);
+    --font-mono: 'IBM Plex Mono', monospace;
+    --spacing-sm: 10px;
+    --spacing-md: 20px;
+    --spacing-lg: 40px;
+}

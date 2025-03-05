@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hunter Todd - About</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <nav class="app-bar">
+    <nav class="app-bar" data-aos="fade-left">
         <a class="nav-link" href="index.html">Home</a>
         <a class="nav-link" href="projects.html">Projects</a>
         <a class="nav-link active" href="about.html">About</a>
@@ -18,80 +21,35 @@
         <a class="nav-link" href="assets/resume.pdf" target="_blank">Resume</a>
     </nav>
 
-    <div class="container">
-        <div class="content-section">
-            <h2 class="section-title">About Me</h2>
-        </div>
-        <div class="content-section">
-            <h3>Education</h3>
-            <p><strong>University of Miami</strong> - B.S. in Software Engineering, Expected May 2025</p>
-            <p><strong>GPA:</strong> 3.88</p>
-            <p><strong>Awards and Honors:</strong> IEEE-HKN and Tau Beta Pi Member, President's Honor Roll (3x), Provost Honor Roll (2x), Dean's List (1x)</p>
-        </div>
-        <div class="content-section">
-            <h3>Skills</h3>
+    <main class="container">
+        <section class="content-section" data-aos="fade-up">
+            <h1 class="section-title">About Me</h1>
+        </section>
+        <section class="content-section" data-aos="fade-up" data-aos-delay="200">
+            <h2>Education</h2>
+            <p><strong>University of Miami</strong> - B.S. Software Engineering, Expected May 2025</p>
+            <p>GPA: 3.88 | Honors: IEEE-HKN, Tau Beta Pi, President's Honor Roll (3x)</p>
+        </section>
+        <section class="content-section" data-aos="fade-up" data-aos-delay="400">
+            <h2>Skills</h2>
+            <p><strong>Languages:</strong> C/C++, Python, Java, JavaScript/TypeScript, HTML/CSS</p>
+            <p><strong>Frameworks:</strong> React, Angular, Node.js, Flask</p>
+            <p><strong>Tools:</strong> Git, Docker, Kubernetes, Unix Shell, MySQL</p>
+        </section>
+        <section class="content-section" data-aos="fade-up" data-aos-delay="600">
+            <h2>Experience</h2>
+            <p><strong>Software Engineer Intern, Parsons</strong> (June 2024 – Present)</p>
             <ul>
-                <li><strong>Programming Languages:</strong> C/C++, Python, Java, JavaScript/TypeScript, HTML/CSS, BCPL, LaTeX</li>
-                <li><strong>Frameworks:</strong> React, Angular, Node.js, Flask</li>
-                <li><strong>Tools and Technologies:</strong> Git/GitHub, Unix Shell, VS Code, IntelliJ IDEA, CLion, PyCharm, MySQL, Docker, Kubernetes, Jira, Bitbucket</li>
+                <li>Developed microservices with Java and Angular</li>
+                <li>Utilized Docker and Kubernetes for deployment</li>
             </ul>
-        </div>
-        <div class="content-section">
-            <h3>Experience</h3>
-            <p><strong>Software Engineer Intern, Parsons | Federal Solutions</strong> (June 2024 – Present, Colorado Springs, CO, Hybrid)</p>
-            <ul>
-                <li>Collaborated in an Agile development team to convert an outdated application into a web-based application by implementing a widget action controller for various program managers, enhancing user interaction and control.</li>
-                <li>Developed microservices using Java and Angular, ensuring seamless integration within the existing architecture.</li>
-                <li>Utilized Docker and Kubernetes for containerization and orchestration.</li>
-                <li>Managed tasks and version control using Jira and Bitbucket.</li>
-                <li>Authored comprehensive unit tests in TypeScript and Python, collaborated in code reviews to maintain high code quality and reliability.</li>
-            </ul>
-            <p><strong>Software Engineer Intern, Escape Theory</strong> (June 2023 – October 2023, Loveland, CO, Hybrid)</p>
-            <ul>
-                <li>Contributed to the development of an arcade game system using the MERN stack.</li>
-                <li>Implemented RESTful APIs with Node.js and Express to handle game data and user interactions.</li>
-                <li>Designed responsive front-end interfaces using React and CSS, improving user experience by 30%.</li>
-                <li>Optimized MongoDB queries, reducing data retrieval time by 20%.</li>
-            </ul>
-            <p><strong>Resident Assistant, University of Miami</strong> (August 2022 – Present, Coral Gables, FL)</p>
-            <ul>
-                <li>Supervise and mentor 96 residents, fostering an inclusive and supportive community environment.</li>
-                <li>Plan and execute programs focused on diversity, wellness, and academic success.</li>
-                <li>Enforce university policies to ensure safety and compliance within the residence hall.</li>
-            </ul>
-        </div>
-        <div class="content-section">
-            <h3>Relevant Coursework</h3>
-            <ul>
-                <li>Object-Oriented Programming</li>
-                <li>Data Structures & Algorithms (C & C++)</li>
-                <li>Operating Systems (C)</li>
-                <li>Discrete Math</li>
-                <li>Neural Networks</li>
-                <li>Biomedical Data Science</li>
-                <li>Software Architecture</li>
-                <li>Network Client-Server Programming</li>
-                <li>Database Design</li>
-                <li>Python for Scientists</li>
-                <li>Processors: Hardware, Software, and Interfacing</li>
-                <li>Systems Programming (C)</li>
-            </ul>
-        </div>
-        <div class="content-section">
-            <h3>Links</h3>
-            <p>
-                <a href="assets/resume.pdf" target="_blank">Download Resume</a> | 
-                <a href="https://twitter.com/huntertodd" target="_blank">Twitter</a> | 
-                <a href="https://linkedin.com/in/hunter-todd-717793212" target="_blank">LinkedIn</a> | 
-                <a href="https://github.com/h-user-t" target="_blank">GitHub</a>
-            </p>
-        </div>
-    </div>
+        </section>
+    </main>
 
-    <div class="terminal-chatbox" id="terminal-chatbox" data-x="0" data-y="0">
+    <div class="terminal-chatbox" id="terminal-chatbox">
         <div class="resize-handle"><i class="fas fa-arrows-alt"></i></div>
         <div class="terminal-header">
-            <span>Hunter's Terminal</span>
+            <span>Hunter's Terminal [v1.0]</span>
             <div>
                 <button class="popout-btn" onclick="popoutTerminal()"><i class="fas fa-external-link-alt"></i></button>
                 <button class="close-btn" onclick="toggleTerminal()"><i class="fas fa-times"></i></button>
@@ -103,23 +61,23 @@
             <input type="text" id="command-input" placeholder="Type a command...">
         </div>
     </div>
-    <button class="toggle-terminal-btn" onclick="toggleTerminal()"><i class="fas fa-terminal"></i> Open Terminal</button>
+    <button class="toggle-terminal-btn" onclick="toggleTerminal()">Open Terminal</button>
 
-    <footer>
-        <p>© 2025 Hunter Todd. All rights reserved.</p>
+    <footer data-aos="fade-up">
+        <p>&copy; 2025 Hunter Todd. All rights reserved.</p>
         <p>
-            <a href="https://twitter.com/huntertodd" target="_blank"><i class="fab fa-twitter"></i></a>
             <a href="https://linkedin.com/in/hunter-todd-717793212" target="_blank"><i class="fab fa-linkedin"></i></a>
             <a href="https://github.com/h-user-t" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://twitter.com/huntertodd" target="_blank"><i class="fab fa-twitter"></i></a>
         </p>
     </footer>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="js/script.js"></script>
+    <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/filesystem.js"></script>
+    <script src="js/parser.js"></script>
+    <script src="js/ui.js"></script>
     <script src="js/terminal.js"></script>
 </body>
 </html>

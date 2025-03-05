@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             chatbox.style.height = terminalState.height;
         }
     }
+
 });
 
 // Initialize Interact.js for drag and resize
@@ -119,7 +120,6 @@ try {
     console.error('Interact.js initialization failed:', error);
 }
 
-// Toggle terminal visibility
 function toggleTerminal() {
     try {
         const chatbox = document.getElementById('terminal-chatbox');
@@ -184,8 +184,8 @@ function popoutTerminal() {
                         height: 100%;
                         border: none;
                         display: flex;
-                        background: rgba(255, 255, 255, 0.1);
-                        backdrop-filter: blur(10px);
+                        background: rgba(255, 255, 255, 0.05);
+                        backdrop-filter: blur(15px);
                     }
                     .resize-handle {
                         display: none;

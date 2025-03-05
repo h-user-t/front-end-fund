@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hunter Todd - Projects</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <nav class="app-bar">
+    <nav class="app-bar" data-aos="fade-left">
         <a class="nav-link" href="index.html">Home</a>
         <a class="nav-link active" href="projects.html">Projects</a>
         <a class="nav-link" href="about.html">About</a>
@@ -18,49 +21,28 @@
         <a class="nav-link" href="assets/resume.pdf" target="_blank">Resume</a>
     </nav>
 
-    <div class="container">
-        <div class="content-section">
-            <h2 class="section-title">Projects</h2>
-        </div>
-        <div class="content-section">
-            <h3>MyShell Program</h3>
-            <p>Developed "MyShell," a custom Unix shell in C with built-in commands and network capabilities using socket programming. Implemented features such as process control, piping, and I/O redirection to mimic standard shell functionalities.</p>
-            <p><strong>Technologies:</strong> C, Unix Shell, Networking, Socket Programming</p>
-            <p><a href="#" target="_blank">GitHub</a> | <a href="#" target="_blank">Demo (Coming Soon)</a></p>
-        </div>
-        <div class="content-section">
-            <h3>Exploring the U.S. Map</h3>
-            <p>Created an interactive C++ application to navigate a U.S. map using Dijkstra's algorithm for shortest path calculations. Built an in-memory graph structure from dataset files, optimizing for efficient pathfinding and scalability.</p>
-            <p><strong>Technologies:</strong> C++, Graph Algorithms, Visualization</p>
-            <p><a href="#" target="_blank">GitHub</a> | <a href="#" target="_blank">Demo (Coming Soon)</a></p>
-        </div>
-        <div class="content-section">
-            <h3>Project 1</h3>
-            <p>A responsive front-end project built with HTML, CSS, and JavaScript. It features a dynamic user interface with animations, accessibility compliance, and optimized performance for all devices.</p>
-            <p><strong>Technologies:</strong> HTML5, CSS3, JavaScript, Bootstrap</p>
-            <p><a href="https://h-user-t.github.io/front-end-fund/project-1/" target="_blank">Live Demo</a> | <a href="#" target="_blank">GitHub</a></p>
-        </div>
-        <div class="content-section">
-            <h3>Project 2 (In Progress)</h3>
-            <p>A full-stack application using React and Node.js, designed to manage user data with a secure backend API and a modern front-end interface.</p>
-            <p><strong>Technologies:</strong> React, Node.js, Express, MongoDB</p>
-            <p><a href="#" target="_blank">Coming Soon</a></p>
-        </div>
-        <div class="content-section">
-            <h3>Word Search Game</h3>
-            <p>An interactive word search game built with JavaScript, featuring dynamic puzzle generation, a responsive UI, and engaging user interactions.</p>
-            <p><strong>Technologies:</strong> JavaScript, HTML5 Canvas, CSS3</p>
-            <p><a href="https://h-user-t.github.io/front-end-fund/project-1/" target="_blank">Play Now</a> | <a href="#" target="_blank">GitHub</a></p>
-        </div>
-        <div class="content-section">
-            <p>Use the terminal to navigate or view project details (e.g., `cat myshell_program`).</p>
-        </div>
-    </div>
+    <main class="container">
+        <section class="content-section" data-aos="fade-up">
+            <h1 class="section-title">Projects</h1>
+        </section>
+        <section class="content-section" data-aos="fade-up" data-aos-delay="200">
+            <h2>MyShell Program</h2>
+            <p>A custom Unix shell in C with networking via socket programming.</p>
+            <p><strong>Tech:</strong> C, Unix Shell, Socket Programming</p>
+            <a href="https://github.com/h-user-t/MyTerminal" target="_blank">GitHub</a>
+        </section>
+        <section class="content-section" data-aos="fade-up" data-aos-delay="400">
+            <h2>U.S. Map Explorer</h2>
+            <p>Interactive C++ app using Dijkstra’s algorithm for pathfinding.</p>
+            <p><strong>Tech:</strong> C++, Graph Algorithms</p>
+            <a href="https://github.com/h-user-t/ExploringUS" target="_blank">GitHub</a>
+        </section>
+    </main>
 
-    <div class="terminal-chatbox" id="terminal-chatbox" data-x="0" data-y="0">
+    <div class="terminal-chatbox" id="terminal-chatbox">
         <div class="resize-handle"><i class="fas fa-arrows-alt"></i></div>
         <div class="terminal-header">
-            <span>Hunter's Terminal</span>
+            <span>Hunter's Terminal [v1.0]</span>
             <div>
                 <button class="popout-btn" onclick="popoutTerminal()"><i class="fas fa-external-link-alt"></i></button>
                 <button class="close-btn" onclick="toggleTerminal()"><i class="fas fa-times"></i></button>
@@ -72,23 +54,23 @@
             <input type="text" id="command-input" placeholder="Type a command...">
         </div>
     </div>
-    <button class="toggle-terminal-btn" onclick="toggleTerminal()"><i class="fas fa-terminal"></i> Open Terminal</button>
+    <button class="toggle-terminal-btn" onclick="toggleTerminal()">Open Terminal</button>
 
-    <footer>
-        <p>© 2025 Hunter Todd. All rights reserved.</p>
+    <footer data-aos="fade-up">
+        <p>&copy; 2025 Hunter Todd. All rights reserved.</p>
         <p>
-            <a href="https://twitter.com/huntertodd" target="_blank"><i class="fab fa-twitter"></i></a>
             <a href="https://linkedin.com/in/hunter-todd-717793212" target="_blank"><i class="fab fa-linkedin"></i></a>
             <a href="https://github.com/h-user-t" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://twitter.com/huntertodd" target="_blank"><i class="fab fa-twitter"></i></a>
         </p>
     </footer>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="js/script.js"></script>
+    <script src="https://unpkg.com/interactjs/dist/interact.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/filesystem.js"></script>
+    <script src="js/parser.js"></script>
+    <script src="js/ui.js"></script>
     <script src="js/terminal.js"></script>
 </body>
 </html>
