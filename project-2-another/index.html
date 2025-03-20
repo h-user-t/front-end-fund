@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,9 +33,19 @@
             </div>
             <svg id="graph"></svg>
         </div>
-        <div id="distanceTable" class="distance-table">
-            <h3>Total Distance</h3>
-            <p id="distanceOutput">Double-click a node to set the starting point.</p>
+        <div class="right-section">
+            <div id="distanceTable" class="distance-table">
+                <h3>Total Distance</h3>
+                <p id="distanceOutput">Double-click a node to set the starting point.</p>
+            </div>
+            <div class="legend">
+                <h3>Legend</h3>
+                <p><span class="legend-color" style="background-color: #9b59b6;"></span> Start Node</p>
+                <p><span class="legend-color" style="background-color: #e74c3c;"></span> End Node</p>
+                <p><span class="legend-color" style="background-color: #69b3a2;"></span> Unvisited Node</p>
+                <p><span class="legend-color" style="background-color: #f1c40f;"></span> Visited Node</p>
+                <p><span class="legend-color" style="background-color: #3498db;"></span> Path Node/Link</p>
+            </div>
         </div>
     </div>
     <script src="https://d3js.org/d3.v7.min.js"></script>

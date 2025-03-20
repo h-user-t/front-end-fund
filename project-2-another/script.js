@@ -1,22 +1,19 @@
+
 const width = 600;
 const height = 500;
 
-// SVG setup
 const svg = d3.select('#graph')
     .attr('width', width)
     .attr('height', height);
 
-// Initial graph data
 let nodes = generateSmallGraph();
 let links = generateLinks(nodes);
 
-// Render groups
 const linkGroup = svg.append('g').attr('class', 'links');
 const weightGroup = svg.append('g').attr('class', 'weights');
 const nodeGroup = svg.append('g').attr('class', 'nodes');
 const labelGroup = svg.append('g').attr('class', 'labels');
 
-// State for start and end nodes
 let startNode = null;
 let endNode = null;
 let isRunning = false;
@@ -26,11 +23,9 @@ let unvisited = null;
 let distances = null;
 let previous = null;
 
-// Distance output element
 const distanceOutput = d3.select('#distanceOutput');
 const stopButton = d3.select('#stop');
 
-// Generate a small graph (5 nodes)
 function generateSmallGraph() {
     return Array.from({ length: 5 }, (_, i) => ({
         id: i,
@@ -39,26 +34,31 @@ function generateSmallGraph() {
     }));
 }
 
-// Generate links for a graph
 function generateLinks(nodes) {
     const links = [];
-    // Ensure connectivity
     for (let i = 1; i < nodes.length; i++) {
         const randomTarget = nodes[Math.floor(Math.random() * i)];
+        const dx = randomTarget.x - nodes[i].x;
+        const dy = randomTarget.y - nodes[i].y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
         links.push({
             source: nodes[i],
             target: randomTarget,
-            weight: Math.floor(Math.random() * 10) + 1
+            weight: Math.round(distance / 10)
         });
     }
-    // Add extra random connections
     for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
-            if (Math.random() < 0.2 && !links.some(l => (l.source.id === i && l.target.id === j) || (l.source.id === j && l.target.id === i))) {
+            if (Math.random() < 0.2 && !links.some(l => 
+                (l.source.id === i && l.target.id === j) || 
+                (l.source.id === j && l.target.id === i))) {
+                const dx = nodes[j].x - nodes[i].x;
+                const dy = nodes[j].y - nodes[i].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
                 links.push({
                     source: nodes[i],
                     target: nodes[j],
-                    weight: Math.floor(Math.random() * 10) + 1
+                    weight: Math.round(distance / 10)
                 });
             }
         }
@@ -66,7 +66,6 @@ function generateLinks(nodes) {
     return links;
 }
 
-// Dragging behavior
 const drag = d3.drag()
     .on('start', (event, d) => {
         d.dragging = true;
@@ -74,15 +73,20 @@ const drag = d3.drag()
     .on('drag', (event, d) => {
         d.x = event.x;
         d.y = event.y;
+        links.forEach(link => {
+            if (link.source === d || link.target === d) {
+                const dx = link.target.x - link.source.x;
+                const dy = link.target.y - link.source.y;
+                link.weight = Math.round(Math.sqrt(dx * dx + dy * dy) / 10);
+            }
+        });
         updateGraph();
     })
     .on('end', (event, d) => {
         setTimeout(() => { d.dragging = false; }, 100);
     });
 
-// Update visualization
 function updateGraph() {
-    // Links
     const linkSel = linkGroup.selectAll('.link')
         .data(links, d => `${d.source.id}-${d.target.id}`);
     linkSel.exit().remove();
@@ -95,7 +99,6 @@ function updateGraph() {
         .attr('x2', d => d.target.x)
         .attr('y2', d => d.target.y);
 
-    // Weights
     const weightSel = weightGroup.selectAll('.weight')
         .data(links, d => `${d.source.id}-${d.target.id}`);
     weightSel.exit().remove();
@@ -107,7 +110,6 @@ function updateGraph() {
         .attr('y', d => (d.source.y + d.target.y) / 2)
         .text(d => d.weight);
 
-    // Nodes
     const nodeSel = nodeGroup.selectAll('.node')
         .data(nodes, d => d.id);
     nodeSel.exit().remove();
@@ -123,7 +125,6 @@ function updateGraph() {
         .attr('cx', d => d.x)
         .attr('cy', d => d.y);
 
-    // Node labels
     const labelSel = labelGroup.selectAll('.node-label')
         .data(nodes, d => d.id);
     labelSel.exit().remove();
@@ -136,11 +137,9 @@ function updateGraph() {
         .text(d => d.id);
 }
 
-// Initial render
 updateGraph();
 distanceOutput.text('Double-click a node to set the starting point.');
 
-// Add node functionality
 d3.select('#addNode').on('click', () => {
     const newNode = {
         id: nodes.length,
@@ -149,23 +148,29 @@ d3.select('#addNode').on('click', () => {
     };
     nodes.push(newNode);
 
-    // Ensure at least one connection
     const randomTarget = nodes[Math.floor(Math.random() * (nodes.length - 1))];
+    const dx = randomTarget.x - newNode.x;
+    const dy = randomTarget.y - newNode.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
     links.push({
         source: newNode,
         target: randomTarget,
-        weight: Math.floor(Math.random() * 10) + 1
+        weight: Math.round(distance / 10)
     });
 
-    // Add up to 1 extra connection
     const numExtraConnections = Math.floor(Math.random() * 2);
     const shuffledNodes = [...nodes.slice(0, -1)].sort(() => Math.random() - 0.5);
     shuffledNodes.slice(0, numExtraConnections).forEach(target => {
-        if (target !== randomTarget && !links.some(l => (l.source.id === newNode.id && l.target.id === target.id) || (l.source.id === target.id && l.target.id === newNode.id))) {
+        if (target !== randomTarget && !links.some(l => 
+            (l.source.id === newNode.id && l.target.id === target.id) || 
+            (l.source.id === target.id && l.target.id === newNode.id))) {
+            const dx = target.x - newNode.x;
+            const dy = target.y - newNode.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
             links.push({
                 source: newNode,
                 target,
-                weight: Math.floor(Math.random() * 10) + 1
+                weight: Math.round(distance / 10)
             });
         }
     });
@@ -173,19 +178,25 @@ d3.select('#addNode').on('click', () => {
     updateGraph();
 });
 
-// Reset functionality
 d3.select('#reset').on('click', () => {
     startNode = null;
     endNode = null;
     isRunning = false;
     isPaused = false;
     stopButton.text('Stop').classed('resume', false);
-    nodeGroup.selectAll('.node').classed('start', false).classed('end', false).classed('visited', false).classed('path', false);
-    linkGroup.selectAll('.link').classed('visited', false).classed('path', false);
+    nodeGroup.selectAll('.node')
+        .classed('start', false)
+        .classed('end', false)
+        .classed('visited', false)
+        .classed('path', false)
+        .classed('dimmed', false);
+    linkGroup.selectAll('.link')
+        .classed('visited', false)
+        .classed('path', false)
+        .classed('dimmed', false);
     distanceOutput.text('Double-click a node to set the starting point.');
 });
 
-// Restart functionality
 d3.select('#restart').on('click', () => {
     nodes = generateSmallGraph();
     links = generateLinks(nodes);
@@ -202,13 +213,12 @@ d3.select('#restart').on('click', () => {
     distanceOutput.text('Double-click a node to set the starting point.');
 });
 
-// Stop/Resume functionality
 d3.select('#stop').on('click', () => {
     if (isPaused) {
         isPaused = false;
         stopButton.text('Stop').classed('resume', false);
         distanceOutput.text('Resuming algorithm...');
-        runDijkstra(); // Resume from where it left off
+        runDijkstra();
     } else {
         isRunning = false;
         isPaused = true;
@@ -217,7 +227,6 @@ d3.select('#stop').on('click', () => {
     }
 });
 
-// Handle double-click (start or end node)
 function handleDoubleClick(event, d) {
     if (d.dragging) return;
 
@@ -232,26 +241,29 @@ function handleDoubleClick(event, d) {
         d3.select(this).classed('end', true);
         runDijkstra();
     } else {
-        // Reset if both are set and a new double-click occurs
         startNode = d;
         endNode = null;
         isRunning = false;
         isPaused = false;
         stopButton.text('Stop').classed('resume', false);
-        nodeGroup.selectAll('.node').classed('start', false).classed('end', false).classed('visited', false).classed('path', false);
-        linkGroup.selectAll('.link').classed('visited', false).classed('path', false);
+        nodeGroup.selectAll('.node').classed('start', false).classed('end', false).classed('visited', false).classed('path', false).classed('dimmed', false);
+        linkGroup.selectAll('.link').classed('visited', false).classed('path', false).classed('dimmed', false);
         d3.select(this).classed('start', true);
         distanceOutput.text(`Starting from Node ${startNode.id}`);
     }
 }
 
-// Dijkstra's algorithm with total distance display
 async function runDijkstra() {
     if (!startNode || !endNode) return;
 
     isRunning = true;
 
-    // Initialize or resume state
+
+    nodeGroup.selectAll('.node')
+        .classed('dimmed', d => d !== startNode && d !== endNode);
+    linkGroup.selectAll('.link')
+        .classed('dimmed', true);
+
     if (!distances || !unvisited || !previous) {
         distances = new Map(nodes.map(n => [n.id, Infinity]));
         previous = new Map(nodes.map(n => [n.id, null]));
@@ -261,16 +273,18 @@ async function runDijkstra() {
     }
 
     while (unvisited.size > 0 && isRunning) {
-        if (isPaused) return; // Pause if requested
+        if (isPaused) return;
 
         const current = nodes.find(n => n.id === currentId);
 
         if (current === endNode) break;
 
         unvisited.delete(currentId);
-        // Only apply visited class if the node is not start or end
         if (current !== startNode && current !== endNode) {
-            nodeGroup.selectAll('.node').filter(d => d.id === currentId).classed('visited', true);
+            nodeGroup.selectAll('.node')
+                .filter(d => d.id === currentId)
+                .classed('visited', true)
+                .classed('dimmed', false);
         }
 
         const neighbors = links.filter(l => l.source.id === currentId || l.target.id === currentId)
@@ -290,11 +304,11 @@ async function runDijkstra() {
                 linkGroup.selectAll('.link')
                     .filter(d => (d.source.id === currentId && d.target.id === neighbor.id) || 
                                 (d.target.id === currentId && d.source.id === neighbor.id))
-                    .classed('visited', true);
+                    .classed('visited', true)
+                    .classed('dimmed', false);
             }
         }
 
-        // Find the next unvisited node with the smallest distance
         if (unvisited.size > 0) {
             currentId = [...unvisited].reduce((minId, id) => {
                 if (distances.get(id) < distances.get(minId)) return id;
@@ -307,22 +321,26 @@ async function runDijkstra() {
 
     if (!isRunning) return;
 
-    // Trace and highlight the shortest path
     let pathNode = endNode;
     const pathNodes = [];
     while (pathNode !== startNode && isRunning) {
-        if (isPaused) return; // Pause if requested
+        if (isPaused) return;
 
         pathNodes.unshift(pathNode.id);
-        // Only apply path class if the node is not start or end
         if (pathNode !== startNode && pathNode !== endNode) {
-            nodeGroup.selectAll('.node').filter(d => d.id === pathNode.id).classed('visited', false).classed('path', true);
+            nodeGroup.selectAll('.node')
+                .filter(d => d.id === pathNode.id)
+                .classed('visited', false)
+                .classed('path', true)
+                .classed('dimmed', false);
         }
         const prevNode = previous.get(pathNode.id);
         linkGroup.selectAll('.link')
             .filter(d => (d.source.id === pathNode.id && d.target.id === prevNode.id) || 
                         (d.target.id === pathNode.id && d.source.id === prevNode.id))
-            .classed('visited', false).classed('path', true);
+            .classed('visited', false)
+            .classed('path', true)
+            .classed('dimmed', false);
         pathNode = prevNode;
         await new Promise(resolve => setTimeout(resolve, 500));
     }
@@ -330,9 +348,10 @@ async function runDijkstra() {
         pathNodes.unshift(startNode.id);
         const totalDistance = distances.get(endNode.id);
         distanceOutput.text(`Path: ${pathNodes.join(' -> ')}\nTotal Distance: ${totalDistance === Infinity ? 'No path exists' : totalDistance}`);
+        nodeGroup.selectAll('.node').classed('dimmed', false);
+        linkGroup.selectAll('.link').classed('dimmed', false);
     }
 
-    // Reset state after completion
     distances = null;
     unvisited = null;
     previous = null;

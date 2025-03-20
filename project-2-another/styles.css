@@ -1,10 +1,11 @@
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
     margin: 0;
     padding: 20px;
     text-align: center;
-    overflow: hidden; /* Prevent scrolling */
+    overflow: hidden;
 }
 
 h1 {
@@ -29,7 +30,7 @@ h1 {
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: left;
-    height: 500px; /* Match graph height */
+    height: 500px;
     overflow: hidden;
 }
 
@@ -71,7 +72,6 @@ h1 {
 
 button {
     padding: 8px 16px;
-    background-color: #3498db;
     color: white;
     border: none;
     border-radius: 5px;
@@ -80,39 +80,47 @@ button {
 }
 
 button:hover {
-    background-color: #2980b9;
+    opacity: 0.9;
+}
+
+#addNode {
+    background-color: #6c5ce7;
+}
+
+#addNode:hover {
+    background-color: #5a4cd1;
 }
 
 #reset {
-    background-color: #e74c3c;
+    background-color: #d63031;
 }
 
 #reset:hover {
-    background-color: #c0392b;
+    background-color: #b72a2b;
 }
 
 #restart {
-    background-color: #2ecc71;
+    background-color: #00b894;
 }
 
 #restart:hover {
-    background-color: #27ae60;
+    background-color: #009c7a;
 }
 
 #stop {
-    background-color: #f39c12;
+    background-color: #e17055;
 }
 
 #stop:hover {
-    background-color: #e67e22;
+    background-color: #c75f47;
 }
 
 #stop.resume {
-    background-color: #2ecc71;
+    background-color: #00b894;
 }
 
 #stop.resume:hover {
-    background-color: #27ae60;
+    background-color: #009c7a;
 }
 
 #graph {
@@ -138,13 +146,16 @@ button:hover {
     fill: #3498db;
 }
 
-/* Ensure start and end colors take precedence */
 .node.start {
-    fill: #9b59b6 !important; /* Purple for start */
+    fill: #9b59b6 !important;
 }
 
 .node.end {
-    fill: #e74c3c !important; /* Red for end */
+    fill: #e74c3c !important;
+}
+
+.node.dimmed {
+    opacity: 0.3;
 }
 
 .node-label {
@@ -170,22 +181,31 @@ button:hover {
     stroke-width: 4;
 }
 
+.link.dimmed {
+    opacity: 0.3;
+}
+
 .weight {
     font-size: 12px;
     fill: #333;
     pointer-events: none;
 }
 
+.right-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 .distance-table {
     width: 300px;
     background: #fff;
-    padding: 15px;
+    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: left;
-    height: 500px; /* Match graph height */
-    overflow: hidden;
+    height: 100px;
 }
 
 .distance-table h3 {
@@ -198,4 +218,29 @@ button:hover {
     color: #333;
     margin: 0;
     line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+.legend {
+    width: 300px;
+    text-align: left;
+    font-size: 12px;
+}
+
+.legend h3 {
+    margin: 0 0 5px;
+    color: #333;
+}
+
+.legend p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.legend-color {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+    vertical-align: middle;
 }
