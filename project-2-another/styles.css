@@ -1,0 +1,201 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    overflow: hidden; /* Prevent scrolling */
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+.layout {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.explanation {
+    width: 300px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    height: 500px; /* Match graph height */
+    overflow: hidden;
+}
+
+.explanation h2, .explanation h3 {
+    color: #333;
+    margin: 0 0 8px;
+    font-size: 1.2em;
+}
+
+.explanation p, .explanation ul {
+    color: #666;
+    font-size: 12px;
+    line-height: 1.4;
+    margin: 0 0 8px;
+}
+
+.explanation ul {
+    padding-left: 15px;
+    margin: 0;
+}
+
+.graph-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.graph-section p {
+    color: #666;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 8px 16px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+#reset {
+    background-color: #e74c3c;
+}
+
+#reset:hover {
+    background-color: #c0392b;
+}
+
+#restart {
+    background-color: #2ecc71;
+}
+
+#restart:hover {
+    background-color: #27ae60;
+}
+
+#stop {
+    background-color: #f39c12;
+}
+
+#stop:hover {
+    background-color: #e67e22;
+}
+
+#stop.resume {
+    background-color: #2ecc71;
+}
+
+#stop.resume:hover {
+    background-color: #27ae60;
+}
+
+#graph {
+    width: 600px;
+    height: 500px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.node {
+    fill: #69b3a2;
+    stroke: #fff;
+    stroke-width: 2;
+}
+
+.node.visited {
+    fill: #f1c40f;
+}
+
+.node.path {
+    fill: #3498db;
+}
+
+/* Ensure start and end colors take precedence */
+.node.start {
+    fill: #9b59b6 !important; /* Purple for start */
+}
+
+.node.end {
+    fill: #e74c3c !important; /* Red for end */
+}
+
+.node-label {
+    font-size: 12px;
+    fill: #fff;
+    text-anchor: middle;
+    dominant-baseline: middle;
+    pointer-events: none;
+}
+
+.link {
+    stroke: #999;
+    stroke-width: 2;
+}
+
+.link.visited {
+    stroke: #f1c40f;
+    stroke-width: 3;
+}
+
+.link.path {
+    stroke: #3498db;
+    stroke-width: 4;
+}
+
+.weight {
+    font-size: 12px;
+    fill: #333;
+    pointer-events: none;
+}
+
+.distance-table {
+    width: 300px;
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    height: 500px; /* Match graph height */
+    overflow: hidden;
+}
+
+.distance-table h3 {
+    margin: 0 0 8px;
+    color: #333;
+}
+
+.distance-table p {
+    font-size: 14px;
+    color: #333;
+    margin: 0;
+    line-height: 1.5;
+}

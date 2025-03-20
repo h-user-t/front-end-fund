@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dijkstra's Algorithm Visualization</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Dijkstra's Path Finder</h1>
+    <div class="layout">
+        <div class="explanation">
+            <h2>What is Dijkstra's Algorithm?</h2>
+            <p>Dijkstra's algorithm, developed by Edsger W. Dijkstra in 1956, is a graph search algorithm that finds the shortest path between two nodes in a weighted graph. It works by exploring nodes in order of increasing distance from the starting node, ensuring the shortest path is always found first.</p>
+            <h3>Why is it Important?</h3>
+            <p>Dijkstra's algorithm is widely used in real-world applications, such as:</p>
+            <ul>
+                <li><strong>Navigation Systems:</strong> Finding the shortest route between two locations (e.g., GPS).</li>
+                <li><strong>Networking:</strong> Routing data packets efficiently in computer networks.</li>
+                <li><strong>Robotics:</strong> Path planning for robots to avoid obstacles.</li>
+                <li><strong>Game Development:</strong> AI pathfinding for characters.</li>
+            </ul>
+            <p>Its efficiency and guarantee of finding the optimal path make it a cornerstone of graph theory and computer science.</p>
+        </div>
+        <div class="graph-section">
+            <p>Double-click to set start (purple), double-click again to set end (red). Drag nodes, add new ones, or reset!</p>
+            <div class="button-group">
+                <button id="addNode">Add Node</button>
+                <button id="reset">Reset</button>
+                <button id="restart">Restart</button>
+                <button id="stop">Stop</button>
+            </div>
+            <svg id="graph"></svg>
+        </div>
+        <div id="distanceTable" class="distance-table">
+            <h3>Total Distance</h3>
+            <p id="distanceOutput">Double-click a node to set the starting point.</p>
+        </div>
+    </div>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
